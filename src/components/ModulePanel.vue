@@ -77,7 +77,7 @@ const Modules: Module[] = [
     name: 'LungAir EHR',
     icon: 'database',
     component: EHRDataBrowser,
-  }
+  },
 ];
 
 const autoSwitchToAnnotationsTools = [

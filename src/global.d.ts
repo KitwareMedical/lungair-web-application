@@ -21,7 +21,5 @@ declare module 'vue/types/vue' {
 }
 
 declare module 'jquery' {
-  export interface $ {
-
-  }
+  export interface $ {}
 }
