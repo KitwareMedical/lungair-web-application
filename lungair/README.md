@@ -25,13 +25,13 @@ Once you have the pre-requisites, follow the steps listed below:
     ```bash
     git clone https://www.github.com/KitwareMedical/lungair-web-application --branch=lungair-main
     cd lungair-web-application
-    npm install
     ```
 
 2. Build and run VolView on http://localhost:4173/ 
 
     Open a new console window, and run:
     ```bash
+    npm install
     npm run build
     npm run preview
     ```
@@ -66,7 +66,10 @@ Once you have the pre-requisites, follow the steps listed below:
 6. VolView Python backend server.
 
    VolView's python server can be used to run backend jobs such as deep learning inference pipelines.
-   Start an instance of the python server by following the [quick-start guide](../documentation/content/doc/server-dev.md#starting-the-server).
+   Start an instance of the python server by following the [quick-start guide](../documentation/content/doc/server-dev.md#starting-the-server).\
+   _NOTE: "Remote Functions" tab from VolView is currently disabled in LungAir customization.
+    We will soon add some functions to talk to the python server in our own custom "LUNGAIR EHR" tab.
+    Meanwhile, you can re-enable it locally for testing purposes. Go to `ModulePanel.vue` and uncomment the lines that declare the `ServerModule`._
 
 ## Acknowledgments
 
