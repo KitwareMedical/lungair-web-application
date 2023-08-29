@@ -229,14 +229,14 @@ import LayoutGrid from './LayoutGrid.vue';
 import ModulePanel from './ModulePanel.vue';
 import DragAndDrop from './DragAndDrop.vue';
 import CloseableDialog from './CloseableDialog.vue';
-import AboutBox from './AboutBox.vue';
+import AboutBox from '../../lungair/src/components/AboutBox.vue';
 import ToolStrip from './ToolStrip.vue';
 import MessageCenter from './MessageCenter.vue';
 import MessageNotifications from './MessageNotifications.vue';
 import Settings from './Settings.vue';
 import PersistentOverlay from './PersistentOverlay.vue';
 import DataSecurityBox from './DataSecurityBox.vue';
-import VolViewFullLogo from './icons/VolViewFullLogo.vue';
+import VolViewFullLogo from '../../lungair/src/components/icons/VolViewFullLogo.vue';
 import VolViewLogo from './icons/VolViewLogo.vue';
 import {
   DataSource,
