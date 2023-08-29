@@ -67,10 +67,7 @@ Once you have the pre-requisites, follow the steps listed below:
 6. VolView Python backend server.
 
    VolView's python server can be used to run backend jobs such as deep learning inference pipelines.
-   Start an instance of the python server by following the [quick-start guide](../documentation/content/doc/server-dev.md#starting-the-server).\
-   _NOTE: "Remote Functions" tab from VolView is currently disabled in LungAir customization.
-    We will soon add some functions to talk to the python server in our own custom "LUNGAIR EHR" tab.
-    Meanwhile, you can re-enable it locally for testing purposes. Go to `ModulePanel.vue` and uncomment the lines that declare the `ServerModule`._
+   Start an instance of the python server by following the [quick-start guide](../documentation/content/doc/server-dev.md#starting-the-server).
 
 ## Acknowledgments
 

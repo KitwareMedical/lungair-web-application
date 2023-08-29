@@ -39,7 +39,7 @@ import { Component, defineComponent, ref, watch } from 'vue';
 import DataBrowser from './DataBrowser.vue';
 import RenderingModule from './RenderingModule.vue';
 import AnnotationsModule from './AnnotationsModule.vue';
-// import ServerModule from './ServerModule.vue';
+import ServerModule from './ServerModule.vue';
 import { useToolStore } from '../store/tools';
 import { Tools } from '../store/tools/types';
 import EHRDataBrowser from '../../lungair/src/components/EHRDataBrowser.vue';
@@ -66,13 +66,11 @@ const Modules: Module[] = [
     icon: 'cube',
     component: RenderingModule,
   },
-  /*
   {
     name: 'Remote',
     icon: 'server-network',
     component: ServerModule,
   },
-  */
   {
     name: 'LungAir EHR',
     icon: 'database',
