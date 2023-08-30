@@ -64,10 +64,20 @@ Once you have the pre-requisites, follow the steps listed below:
    pop-up window. See this [test data document](https://docs.google.com/document/d/10RnVyF1etl_17pyCyK96tyhUWRbrTyEcqpwzW-Z-Ybs/edit)
    for credentials to use on Oracle's public test server.
 
-6. VolView Python backend server.
+6. Python backend server.
 
    VolView's python server can be used to run backend jobs such as deep learning inference pipelines.
-   Start an instance of the python server by following the [quick-start guide](../documentation/content/doc/server-dev.md#starting-the-server).
+   Following the [quick-start guide](../documentation/content/doc/server-dev.md#starting-the-server),
+   install [Poetry](https://python-poetry.org/), create a new Python environment for
+   running the VolView server, and install the server dependencies:
+   ```bash
+   cd lungair-web-application/server/
+   poetry install
+   ```
+   Then, from the same directory, run the server as follows:
+   ```bash
+   poetry run python -m volview_server -P 4014 ../lungair/python/lungair_methods.py
+   ```
 
 ## Acknowledgments
 
