@@ -236,7 +236,7 @@ import MessageNotifications from './MessageNotifications.vue';
 import Settings from './Settings.vue';
 import PersistentOverlay from './PersistentOverlay.vue';
 import DataSecurityBox from './DataSecurityBox.vue';
-import VolViewFullLogo from '../../lungair/src/components/icons/VolViewFullLogo.vue';
+import VolViewFullLogo from '../../lungair/src/components/icons/LungairFullLogo.vue';
 import VolViewLogo from './icons/VolViewLogo.vue';
 import {
   DataSource,

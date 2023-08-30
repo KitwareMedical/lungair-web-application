@@ -42,6 +42,6 @@
 
 <script>
 export default {
-  name: 'volview-full-logo',
+  name: 'lungair-full-logo',
 };
 </script>
