@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title class="d-flex flex-row justify-center">
-      <vol-view-full-logo />
+      <lungair-full-logo />
     </v-card-title>
     <v-card-text>
       <h2 class="mt-2">About LungAIR</h2>
@@ -219,12 +219,12 @@
 
 import { defineComponent } from 'vue';
 import { useDisplay } from 'vuetify';
-import VolViewFullLogo from './icons/VolViewFullLogo.vue';
+import LungairFullLogo from './icons/LungairFullLogo.vue';
 
 export default defineComponent({
   name: 'AboutBox',
   components: {
-    VolViewFullLogo,
+    LungairFullLogo,
   },
   setup() {
     const display = useDisplay();
