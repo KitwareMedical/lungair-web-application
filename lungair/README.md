@@ -64,13 +64,20 @@ Once you have the pre-requisites, follow the steps listed below:
    pop-up window. See this [test data document](https://docs.google.com/document/d/10RnVyF1etl_17pyCyK96tyhUWRbrTyEcqpwzW-Z-Ybs/edit)
    for credentials to use on Oracle's public test server.
 
-6. VolView Python backend server.
+6. Python backend server.
 
    VolView's python server can be used to run backend jobs such as deep learning inference pipelines.
-   Start an instance of the python server by following the [quick-start guide](../documentation/content/doc/server-dev.md#starting-the-server).\
-   _NOTE: "Remote Functions" tab from VolView is currently disabled in LungAir customization.
-    We will soon add some functions to talk to the python server in our own custom "LUNGAIR EHR" tab.
-    Meanwhile, you can re-enable it locally for testing purposes. Go to `ModulePanel.vue` and uncomment the lines that declare the `ServerModule`._
+   Following the [quick-start guide](../documentation/content/doc/server-dev.md#starting-the-server),
+   install [Poetry](https://python-poetry.org/), create a new Python environment for
+   running the VolView server, and install the server dependencies:
+   ```bash
+   cd lungair-web-application/server/
+   poetry install
+   ```
+   Then, from the same directory, run the server as follows:
+   ```bash
+   poetry run python -m volview_server -P 4014 ../lungair/python/lungair_methods.py
+   ```
 
 ## Acknowledgments
 
