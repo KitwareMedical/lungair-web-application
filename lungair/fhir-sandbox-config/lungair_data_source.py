@@ -10,7 +10,7 @@ class LungairPatient(Patient):
     self.dob = datetime.datetime(
         year = np.random.choice(np.arange(2010,2012)),
         month = np.random.choice(np.arange(1,13)),
-        day = np.random.choice(np.arange(1,31)),
+        day = np.random.choice(np.arange(1,28)),
     )
 
   def get_identifier_value(self):
@@ -75,8 +75,22 @@ class LungairDataSource(PatientDataSource):
     observations = []
     for i, row in observations_for_patient_df.iterrows():
       date = patient.dob + datetime.timedelta(days=int(row['DOL']))
+
+      def is_missing(entry : str) -> bool:
+        """ Return whether an entry is considered to be missing data. In our tables we often have '*' indicate missing data. """
+        entry = entry.strip()
+        return entry in ['*', '']
+
+      # fraction inspired oxygen
       fio2_raw = str(row['Supplemental O2 (FiO2)'])
-      if not fio2_raw.strip() == '*': # if not missing
+      if not is_missing(fio2_raw):
         fio2 = int(100*float(fio2_raw))
         observations.append(LungairObservation(i,date,'FIO2',fio2))
+      
+      # heart rate 
+      hr_raw = str(row['HR (bpm)'])
+      if not is_missing(hr_raw):
+        hr = float(hr_raw)
+        observations.append(LungairObservation(i,date,'HR',hr))
+
     return observations
