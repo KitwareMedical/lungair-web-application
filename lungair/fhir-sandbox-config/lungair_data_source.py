@@ -75,6 +75,8 @@ class LungairDataSource(PatientDataSource):
     observations = []
     for i, row in observations_for_patient_df.iterrows():
       date = patient.dob + datetime.timedelta(days=int(row['DOL']))
-      fio2 = int(100*float(row['Supplemental O2 (FiO2)']))
-      observations.append(LungairObservation(i,date,'FIO2',fio2))
+      fio2_raw = str(row['Supplemental O2 (FiO2)'])
+      if not fio2_raw.strip() == '*': # if not missing
+        fio2 = int(100*float(fio2_raw))
+        observations.append(LungairObservation(i,date,'FIO2',fio2))
     return observations
