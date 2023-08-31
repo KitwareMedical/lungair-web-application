@@ -1,0 +1,8 @@
+{
+	"args":
+	{
+		"data_file_path": "/put/your/path/here/table.xlsx"
+	},
+	"class_name": "LungairDataSource",
+	"module_path": "./lungair_data_source.py"
+}
