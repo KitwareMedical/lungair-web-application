@@ -37,7 +37,6 @@
 import { Component, defineComponent, ref, watch } from 'vue';
 
 import DataBrowser from './DataBrowser.vue';
-import RenderingModule from './RenderingModule.vue';
 import AnnotationsModule from './AnnotationsModule.vue';
 import ServerModule from '../../lungair/src/components/LungairServerModule.vue';
 import { useToolStore } from '../store/tools';
@@ -60,11 +59,6 @@ const Modules: Module[] = [
     name: 'Annotations',
     icon: 'pencil',
     component: AnnotationsModule,
-  },
-  {
-    name: 'Rendering',
-    icon: 'cube',
-    component: RenderingModule,
   },
   {
     name: 'Remote',
