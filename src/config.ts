@@ -15,6 +15,8 @@ export const InitViewIDs: Record<string, string> = {
   Sagittal: 'Sagittal',
   Axial: 'Axial',
   Three: '3D',
+  Chart: 'Chart',
+  Analytics: 'Analytics',
 };
 
 /**
@@ -49,6 +51,14 @@ export const InitViewSpecs: Record<string, ViewSpec> = {
       viewUp: 'Superior',
     },
   },
+  [InitViewIDs.Chart]: {
+    viewType: 'Chart',
+    props: {},
+  },
+  [InitViewIDs.Analytics]: {
+    viewType: 'Analytics',
+    props: {},
+  },
 };
 
 /**
@@ -60,6 +70,18 @@ export const DefaultViewSpec = InitViewSpecs[InitViewIDs.Axial];
  * Defines the default layouts.
  */
 export const Layouts: Record<string, Layout> = [
+  {
+    name: 'LungAir Primary',
+    direction: LayoutDirection.H,
+    items: [
+      InitViewIDs.Axial,
+      {
+        direction: LayoutDirection.V,
+        items: [InitViewIDs.Chart, InitViewIDs.Analytics],
+      },
+    ],
+  },
+  /*
   {
     name: 'Axial Only',
     direction: LayoutDirection.H,
@@ -106,6 +128,7 @@ export const Layouts: Record<string, Layout> = [
     direction: LayoutDirection.H,
     items: [InitViewIDs.Three],
   },
+  */
 ].reduce((layouts, layout) => {
   return { ...layouts, [layout.name]: layout };
 }, {});

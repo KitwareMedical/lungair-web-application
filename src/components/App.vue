@@ -348,7 +348,7 @@ export default defineComponent({
 
     // --- layout --- //
 
-    const layoutName: Ref<string> = ref('Quad View');
+    const layoutName: Ref<string> = ref('LungAir Primary');
     const { layout: currentLayout } = storeToRefs(viewStore);
 
     watch(
