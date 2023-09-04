@@ -90,16 +90,22 @@ for credentials to use on the public test server.
 Our research group has collected data from the NICU at Children's National Medical Center.
 Using [fhir-sandbox](https://github.com/KitwareMedical/fhir-sandbox), we can create a local FHIR server
 that is pre-populated with this data, and the LungAIR Web application will eventually be able to interact with this data.
-If you do not have access to this data table, then you can still demo this feature using synthetic data -- this feature is to be introduced soon.
+If you do not have access to this data table, then you can still explore the features of the application
+with synthetic data.
 
 To set up the local FHIR server:
 
 1. Go through the [initial fhir-sandbox setup](https://github.com/KitwareMedical/fhir-sandbox#initial-setup).
+   When setting up a python environment within which to later run the fhir-sandbox scripts, you should additionally
+   `pip install` the following packages: `openpyxl`, `scipy`.
    We assume that the FHIR server is now running and listening at port 3000.
 2. Edit `lungair/fhir-sandbox-config/lungair_data_source.json` and set `data_file_path` to point to the LungAIR NICU data table.
+   If you do not have this table, then simply set `data_file_path` to be `null` to enable synthetic data generation.
+   This purpose of the synthetic data is only to demo the software interface. With the synthetic data option, you may also
+   customize the patient IDs by setting `id_list` to the be the desired list of ID values.
 3. Populate the FHIR server with the data from the table:
    ```bash
-   # (replace the directory placeholders in these commands)
+   # (replace the placeholders in these commands)
    cd [fhir-sandbox repository directory]
    python populate_fhir_server.py --json_file [lungair-web-application directory]/lungair/fhir-sandbox-config/lungair_data_source.json --fhir_server http://localhost:3000/hapi-fhir-jpaserver/fhir/
    ```
