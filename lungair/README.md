@@ -17,7 +17,7 @@ backend Python server for a connected deep learning pipeline.
 - Download and install [Orthanc Server](https://www.orthanc-server.com/download.php)
   with DICOMWeb plugin for locally hosting DICOM images.
   _Orthanc_ server should automatically start at http://localhost:8042/ once you restart the
-  computer. On Linux you can instead use Docker following [this guide](orthanc-docker-quickstart.md).
+  computer. On Linux you can instead use Docker following [this guide](/lungair/orthanc-docker-quickstart.md).
   For instructions on how to install Docker Engine in Linux, please follow the guide [here](https://docs.docker.com/engine/install/ubuntu/).
 
 ### Build and run the web app
