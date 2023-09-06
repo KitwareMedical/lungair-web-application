@@ -268,10 +268,13 @@ class SyntheticTableGenerator:
             pip = np.round(pip)
             pip[missing_mask] = np.nan
 
+            gender_code = np.random.randint(2)
+
             df_list.append(
                 pd.DataFrame(
                     {
                         'ID':dol_count*[id],
+                        'Gender':dol_count*[gender_code],
                         'DOL':t,
                         'HR (bpm)':hr,
                         'RR (bpm)':rr,
@@ -313,6 +316,15 @@ class LungairPatient(Patient):
 
   def get_dob(self) -> str:
     return self.dob.strftime("%Y-%m-%d")
+
+  def get_gender(self) -> Patient.Gender:
+     gender_code = int(self.patient_info.loc['Gender'])
+     if gender_code == 0:
+        return Patient.Gender.FEMALE
+     elif gender_code == 1:
+        return Patient.Gender.MALE
+     else:
+        return Patient.Gender.UNKNOWN
 
 class LungairObservation(Observation):
 
