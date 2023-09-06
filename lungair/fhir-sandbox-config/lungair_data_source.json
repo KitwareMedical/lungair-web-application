@@ -1,0 +1,9 @@
+{
+	"args":
+	{
+		"data_file_path": null,
+		"id_list": null
+	},
+	"class_name": "LungairDataSource",
+	"module_path": "./lungair_data_source.py"
+}
