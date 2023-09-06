@@ -69,7 +69,7 @@ Open http://localhost:8042/ in a browser window and click _All Studies_ button a
 If you do not already have any studies in your hosted DICOMWeb server, upload some example
 DICOM data by clicking the _Upload_ button in the top-right corner.
 
-Now open VolView in another browser window using http://localhost:4173/.
+Now open LungAIR in another browser window using http://localhost:4173/.
 The Data tab should list your DICOM data uploaded to _Orthanc_ server.
 
 ### Electronic health records (EHR)
@@ -80,7 +80,7 @@ The LungAIR web application can interact with EHR in a few different ways.
 
 This proof-of-concept demonstrates user authentication and data retrieval from a Cerner FHIR server.
 
-Go to the _LungAir EHR_ tab in VolView. The login process is currently hard-coded for
+Go to the _LungAir EHR_ tab in the LungAIR web application. The login process is currently hard-coded for
 performing a Cerner Code app launch. Click the login and enter credentials in the
 pop-up window. See this [test data document](https://docs.google.com/document/d/10RnVyF1etl_17pyCyK96tyhUWRbrTyEcqpwzW-Z-Ybs/edit)
 for credentials to use on the public test server.
@@ -101,7 +101,7 @@ To set up the local FHIR server:
    We assume that the FHIR server is now running and listening at port 3000.
 2. Edit `lungair/fhir-sandbox-config/lungair_data_source.json` and set `data_file_path` to point to the LungAIR NICU data table.
    If you do not have this table, then simply set `data_file_path` to be `null` to enable synthetic data generation.
-   This purpose of the synthetic data is only to demo the software interface. With the synthetic data option, you may also
+   The purpose of the synthetic data is only to demo the software interface. With the synthetic data option, you may also
    customize the patient IDs by setting `id_list` to the be the desired list of ID values.
 3. Populate the FHIR server with the data from the table:
    ```bash
