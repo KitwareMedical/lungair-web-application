@@ -3,7 +3,8 @@ import { ref } from 'vue';
 import FHIR from 'fhirclient';
 import $ from 'jquery';
 
-// --- CERNER EHR --- //
+const errorAlert = ref("");
+const doLoginLoading = ref(false);
 
 function processOAuthMessage(msg: any) {
   sessionStorage[msg.storage.key] = msg.storage.value;
@@ -27,7 +28,7 @@ function processOAuthMessage(msg: any) {
       }).catch(console.error);
 }
 
-function cernerLogin() {
+function login() {
   const screenWidth = 1920;
   const screenHeight = 1080;
   const width = 780;
@@ -52,13 +53,14 @@ function cernerLogin() {
   }, false);
 }
 
-const doCernerLoginLoading = ref(false);
-const doCernerLogin = async () => {
-  doCernerLoginLoading.value = true;
+const doLogin = async () => {
+  doLoginLoading.value = true;
   try {
-    cernerLogin();
+    login();
+  } catch(err) {
+    errorAlert.value = "Failed to login to remote EHR.";
   } finally {
-    doCernerLoginLoading.value = false;
+    doLoginLoading.value = false;
   }
 };
 </script>
@@ -94,11 +96,19 @@ const doCernerLogin = async () => {
     </div>
     <div>
       <v-row id="login-button" class="ma-1">
-        <v-btn @click="doCernerLogin" :loading="doCernerLoginLoading" variant="tonal">
+        <v-btn @click="doLogin" :loading="doLoginLoading" variant="tonal">
           Login
         </v-btn>
       </v-row>
     </div>
+    <v-alert
+      v-if="errorAlert.length > 0"
+      color="red"
+      type="warning"
+      transition="slide-y-transition"
+    >
+      {{ errorAlert }}
+    </v-alert>
     <v-divider />
   </div>
 </template>

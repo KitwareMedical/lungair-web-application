@@ -23,6 +23,9 @@
       <dicom-web-settings />
 
       <v-divider class="mt-2 mb-6"></v-divider>
+      <local-FHIR-settings />
+
+      <v-divider class="mt-2 mb-6"></v-divider>
       <server-settings />
     </v-card-text>
   </v-card>
@@ -34,6 +37,7 @@ import { useTheme } from 'vuetify';
 import { useLocalStorage } from '@vueuse/core';
 
 import DicomWebSettings from './dicom-web/DicomWebSettings.vue';
+import LocalFHIRSettings from '../../lungair/src/components/LocalFHIRSettings.vue';
 import ServerSettings from './ServerSettings.vue';
 import { DarkTheme, LightTheme, ThemeStorageKey } from '../constants';
 import {
@@ -66,6 +70,7 @@ export default defineComponent({
   },
   components: {
     DicomWebSettings,
+    LocalFHIRSettings,
     ServerSettings,
   },
 });
