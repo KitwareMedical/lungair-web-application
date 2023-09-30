@@ -20,7 +20,9 @@ import {
   retrieveStudyMetadata,
   retrieveSeriesMetadata,
   parseUrl,
+  QueryParams,
 } from '../../core/dicom-web-api';
+import { useLocalFHIRStore } from '../../../lungair/src/store/local-fhir-store';
 
 const DICOM_WEB_URL_PARAM = 'dicomweb';
 
@@ -44,6 +46,10 @@ const fetchFunctions = {
   studies: retrieveStudyMetadata,
   series: retrieveSeriesMetadata,
 };
+type fetchFunction =
+  | typeof searchForStudies
+  | typeof retrieveStudyMetadata
+  | typeof retrieveSeriesMetadata;
 
 const levelToFetchKey = {
   studies: 'studyInstanceUID',
@@ -79,9 +85,8 @@ export const useDicomWebStore = defineStore('dicom-web', () => {
 
   const host = ref<string | null>(hostConfig ?? savedHost.value);
 
-  watch(savedHost, () => {
-    host.value = savedHost.value;
-  });
+  const { getCurrentPatient } = useLocalFHIRStore();
+  const currentPatientId = getCurrentPatient();
 
   // Remove trailing slash and pull study/series IDs from URL
   const parsedURL = computed(() => parseUrl(host.value ?? ''));
@@ -233,9 +238,15 @@ export const useDicomWebStore = defineStore('dicom-web', () => {
     linkedToStudyOrSeries.value =
       deepestLevel === 'studies' || deepestLevel === 'series';
 
-    const fetchFunc = fetchFunctions[deepestLevel];
+    let fetchFunc: fetchFunction = fetchFunctions.studies;
+    let fetchOptions: QueryParams = {
+      queryParams: { PatientID: currentPatientId.value },
+    };
     const urlIDs = omit(parsedURL.value, 'host');
-    const fetchOptions = remapKeys(urlIDs, levelToFetchKey);
+    if (currentPatientId.value === '') {
+      fetchOptions = remapKeys(urlIDs, levelToFetchKey);
+      fetchFunc = fetchFunctions[deepestLevel];
+    }
     try {
       const fetchedMetas = await fetchFunc(
         cleanHost.value,
@@ -281,9 +292,17 @@ export const useDicomWebStore = defineStore('dicom-web', () => {
   const fetchDicomsOnce = () => {
     if (lastFetchedHostUrl !== host.value || message.value) {
       lastFetchedHostUrl = host.value;
-      fetchDicoms();
+      if (currentPatientId.value !== '') {
+        fetchDicoms();
+      }
     }
   };
+
+  watch(currentPatientId, () => {
+    if (currentPatientId.value !== '') {
+      fetchDicoms();
+    }
+  });
 
   const loadedDicoms = useDICOMStore();
   loadedDicoms.$onAction(({ name, args, after }) => {
