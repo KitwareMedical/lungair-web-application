@@ -1,0 +1,25 @@
+{
+  "name": "customvolviewtemplate",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "update:core": "node ./customizeUtils/bin/updateCore.mjs",
+    "install:core": "node ./customizeUtils/bin/installCore.mjs",
+    "sync-config": "node ./customizeUtils/bin/syncConfig.mjs",
+    "postinstall": "npm run update:core && npm run install:core && npm run sync-config && npx patch-package",
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "license": "Apache-2.0",
+  "type": "module",
+  "dependencies": {
+    "glob": "^10.3.4",
+    "simple-git": "^3.19.1"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9"
+  }
+}
