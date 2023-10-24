@@ -1,0 +1,3 @@
+[submodule "core/VolView"]
+	path = core/VolView
+	url = https://github.com/Kitware/VolView.git
