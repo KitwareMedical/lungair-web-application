@@ -242,39 +242,39 @@ import {
   ImportDataSourcesResult,
   convertSuccessResultToDataSelection,
 } from '@/src/io/import/importDataSources';
-import ToolButton from './ToolButton.vue';
-import LayoutGrid from './LayoutGrid.vue';
-import ModulePanel from './ModulePanel.vue';
-import DragAndDrop from './DragAndDrop.vue';
-import CloseableDialog from './CloseableDialog.vue';
-import AboutBox from './AboutBox.vue';
-import ToolStrip from './ToolStrip.vue';
-import MessageCenter from './MessageCenter.vue';
-import MessageNotifications from './MessageNotifications.vue';
-import Settings from './Settings.vue';
-import PersistentOverlay from './PersistentOverlay.vue';
-import DataSecurityBox from './DataSecurityBox.vue';
+import ToolButton from '@/src/components/ToolButton.vue';
+import LayoutGrid from '@/src/components/LayoutGrid.vue';
+import ModulePanel from '@/src/components/ModulePanel.vue';
+import DragAndDrop from '@/src/components/DragAndDrop.vue';
+import CloseableDialog from '@/src/components/CloseableDialog.vue';
+import AboutBox from '@/src/components/AboutBox.vue';
+import ToolStrip from '@/src/components/ToolStrip.vue';
+import MessageCenter from '@/src/components/MessageCenter.vue';
+import MessageNotifications from '@/src/components/MessageNotifications.vue';
+import Settings from '@/src/components/Settings.vue';
+import PersistentOverlay from '@/src/components/PersistentOverlay.vue';
+import DataSecurityBox from '@/src/components/DataSecurityBox.vue';
 import VolViewFullLogo from './icons/LungairFullLogo.vue';
 import VolViewLogo from './icons/LungairLogo.vue';
-import KeyboardShortcuts from './KeyboardShortcuts.vue';
+import KeyboardShortcuts from '@/src/components/KeyboardShortcuts.vue';
 import {
   DataSource,
   fileToDataSource,
   getDataSourceName,
   uriToDataSource,
-} from '../io/import/dataSource';
-import { useImageStore } from '../store/datasets-images';
-import { useViewStore } from '../store/views';
-import { ConnectionState, useServerStore } from '../store/server';
-import { MessageType, useMessageStore } from '../store/messages';
+} from '@/src/io/import/dataSource';
+import { useImageStore } from '@/src/store/datasets-images';
+import { useViewStore } from '@/src/store/views';
+import { ConnectionState, useServerStore } from '@/src/store/server';
+import { MessageType, useMessageStore } from '@/src/store/messages';
 import { Layouts } from '../config';
-import { serialize } from '../io/state-file';
-import SaveSession from './SaveSession.vue';
-import { useGlobalErrorHook } from '../composables/useGlobalErrorHook';
-import { useWebGLWatchdog } from '../composables/useWebGLWatchdog';
-import { useAppLoadingNotifications } from '../composables/useAppLoadingNotifications';
-import { partition, wrapInArray } from '../utils';
-import { useKeyboardShortcuts } from '../composables/useKeyboardShortcuts';
+import { serialize } from '@/src/io/state-file';
+import SaveSession from '@/src/components/SaveSession.vue';
+import { useGlobalErrorHook } from '@/src/composables/useGlobalErrorHook';
+import { useWebGLWatchdog } from '@/src/composables/useWebGLWatchdog';
+import { useAppLoadingNotifications } from '@/src/composables/useAppLoadingNotifications';
+import { partition, wrapInArray } from '@/src/utils';
+import { useKeyboardShortcuts } from '@/src/composables/useKeyboardShortcuts';
 
 async function loadFiles(
   sources: DataSource[],

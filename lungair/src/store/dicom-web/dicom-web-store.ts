@@ -9,10 +9,10 @@ import {
   convertSuccessResultToDataSelection,
   importDataSources,
 } from '@/src/io/import/importDataSources';
-import { useDatasetStore } from '../datasets';
-import { useDICOMStore } from '../datasets-dicom';
-import { useMessageStore } from '../messages';
-import { useDicomMetaStore } from './dicom-meta-store';
+import { useDatasetStore } from '@/src/store/datasets';
+import { useDICOMStore } from '@/src/store/datasets-dicom';
+import { useMessageStore } from '@/src/store/messages';
+import { useDicomMetaStore } from '@/src/store/dicom-web/dicom-meta-store';
 import {
   searchForStudies,
   fetchSeries,
@@ -22,7 +22,7 @@ import {
   parseUrl,
   QueryParams,
 } from '../../core/dicom-web-api';
-import { useLocalFHIRStore } from '../../../lungair/src/store/local-fhir-store';
+import { useLocalFHIRStore } from '../local-fhir-store';
 
 const DICOM_WEB_URL_PARAM = 'dicomweb';
 

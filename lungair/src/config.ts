@@ -3,10 +3,10 @@ import MRIPROSTATExThumbnail from '@/src/assets/samples/MRI-PROSTATEx.jpg';
 import MRAHeadThumbnail from '@/src/assets/samples/MRA-Head_and_Neck.jpg';
 import CTAHeadThumbnail from '@/src/assets/samples/CTA-Head_and_Neck.jpg';
 import USFetusThumbnail from '@/src/assets/samples/3DUS-Fetus.jpg';
-import { Layout, LayoutDirection } from './types/layout';
+import { Layout, LayoutDirection } from '@/src/types/layout';
 import { ViewSpec } from './types/views';
-import { SampleDataset } from './types';
-import { Action } from './constants';
+import { SampleDataset } from '@/src/types';
+import { Action } from '@/src/constants';
 
 /**
  * These are the initial view IDs.

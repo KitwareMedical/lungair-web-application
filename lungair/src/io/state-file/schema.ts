@@ -21,9 +21,9 @@ import {
   WindowLevelConfig,
   LayersConfig,
   VolumeColorConfig,
-} from '../../store/view-configs/types';
-import { LPSAxisDir, LPSAxis } from '../../types/lps';
-import { LayoutDirection } from '../../types/layout';
+} from '@/src/store/view-configs/types';
+import { LPSAxisDir, LPSAxis } from '@/src/types/lps';
+import { LayoutDirection } from '@/src/types/layout';
 import {
   ViewType,
   ColorBy,
@@ -36,7 +36,7 @@ import {
   CVRConfig,
   BlendConfig,
 } from '../../types/views';
-import { WLAutoRanges } from '../../constants';
+import { WLAutoRanges } from '@/src/constants';
 
 export enum DatasetType {
   DICOM = 'dicom',
