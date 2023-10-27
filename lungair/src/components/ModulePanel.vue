@@ -37,8 +37,9 @@
 import { Component, defineComponent, ref, watch } from 'vue';
 
 import DataBrowser from './DataBrowser.vue';
-import RenderingModule from './RenderingModule.vue';
 import AnnotationsModule from './AnnotationsModule.vue';
+import ServerModule from './LungairServerModule.vue';
+import EHRDataBrowser from 'EHRDataBrowser.vue';
 import { useToolStore } from '../store/tools';
 import { Tools } from '../store/tools/types';
 
@@ -60,15 +61,15 @@ const Modules: Module[] = [
     component: AnnotationsModule,
   },
   {
-    name: 'Rendering',
-    icon: 'cube',
-    component: RenderingModule,
+    name: 'Remote',
+    icon: 'server-network',
+    component: ServerModule,
   },
-  // {
-  //   name: 'Remote',
-  //   icon: 'server-network',
-  //   component: ServerModule,
-  // },
+  {
+    name: 'LungAir EHR',
+    icon: 'database',
+    component: EHRDataBrowser,
+  },
 ];
 
 const autoSwitchToAnnotationsTools = [

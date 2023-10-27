@@ -1,7 +1,10 @@
 import { cleanUndefined } from '@/src/utils';
 import { api } from 'dicomweb-client-typed';
 
-export interface FetchStudyOptions {
+export interface QueryParams {
+  queryParams?: { PatientID: string };
+}
+export interface FetchStudyOptions extends QueryParams {
   studyInstanceUID: string;
 }
 
@@ -130,7 +133,9 @@ export function parseUrl(deepDicomWebUrl: string) {
   // remove trailing slash
   const sansSlash = deepDicomWebUrl.replace(/\/$/, '');
 
-  let paths = sansSlash.split('/');
+  // let paths = sansSlash.split('/');
+  const breakpoints = /\/|\?/;
+  let paths = sansSlash.split(breakpoints);
   const parentIDs = LEVELS.reduce((idObj, dicomLevel) => {
     const [urlLevel, dicomID] = paths.slice(-2);
     if (urlLevel === dicomLevel) {

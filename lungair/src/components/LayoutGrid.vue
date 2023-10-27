@@ -23,6 +23,8 @@ import { Component, computed, defineComponent, PropType, toRefs } from 'vue';
 import { storeToRefs } from 'pinia';
 import VtkTwoView from './VtkTwoView.vue';
 import VtkThreeView from './VtkThreeView.vue';
+import AnalyticsView from './AnalyticsView.vue';
+import ChartView from './ChartView.vue';
 import { Layout, LayoutDirection } from '../types/layout';
 import { useViewStore } from '../store/views';
 import { ViewType } from '../types/views';
@@ -30,6 +32,8 @@ import { ViewType } from '../types/views';
 const TYPE_TO_COMPONENT: Record<ViewType, Component> = {
   '2D': VtkTwoView,
   '3D': VtkThreeView,
+  Analytics: AnalyticsView,
+  Chart: ChartView,
 };
 
 export default defineComponent({

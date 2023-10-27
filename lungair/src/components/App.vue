@@ -254,8 +254,8 @@ import MessageNotifications from './MessageNotifications.vue';
 import Settings from './Settings.vue';
 import PersistentOverlay from './PersistentOverlay.vue';
 import DataSecurityBox from './DataSecurityBox.vue';
-import VolViewFullLogo from './icons/VolViewFullLogo.vue';
-import VolViewLogo from './icons/VolViewLogo.vue';
+import VolViewFullLogo from './icons/LungairFullLogo.vue';
+import VolViewLogo from './icons/LungairLogo.vue';
 import KeyboardShortcuts from './KeyboardShortcuts.vue';
 import {
   DataSource,
@@ -368,7 +368,7 @@ export default defineComponent({
 
     // --- layout --- //
 
-    const layoutName: Ref<string> = ref('Quad View');
+    const layoutName: Ref<string> = ref('LungAir Primary');
     const { layout: currentLayout } = storeToRefs(viewStore);
 
     watch(
