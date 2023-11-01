@@ -243,15 +243,15 @@ import {
   convertSuccessResultToDataSelection,
 } from '@/src/io/import/importDataSources';
 import ToolButton from '@/src/components/ToolButton.vue';
-import LayoutGrid from '@/src/components/LayoutGrid.vue';
-import ModulePanel from '@/src/components/ModulePanel.vue';
+import LayoutGrid from './LayoutGrid.vue';
+import ModulePanel from './ModulePanel.vue';
+import AboutBox from './AboutBox.vue';
+import Settings from './Settings.vue';
 import DragAndDrop from '@/src/components/DragAndDrop.vue';
 import CloseableDialog from '@/src/components/CloseableDialog.vue';
-import AboutBox from '@/src/components/AboutBox.vue';
 import ToolStrip from '@/src/components/ToolStrip.vue';
 import MessageCenter from '@/src/components/MessageCenter.vue';
 import MessageNotifications from '@/src/components/MessageNotifications.vue';
-import Settings from '@/src/components/Settings.vue';
 import PersistentOverlay from '@/src/components/PersistentOverlay.vue';
 import DataSecurityBox from '@/src/components/DataSecurityBox.vue';
 import VolViewFullLogo from './icons/LungairFullLogo.vue';

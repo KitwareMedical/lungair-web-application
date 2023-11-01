@@ -36,12 +36,12 @@
 <script lang="ts">
 import { Component, defineComponent, ref, watch } from 'vue';
 
-import DataBrowser from './DataBrowser.vue';
-import AnnotationsModule from './AnnotationsModule.vue';
+import DataBrowser from '@/src/components/DataBrowser.vue';
+import AnnotationsModule from '@/src/components/AnnotationsModule.vue';
 import ServerModule from './LungairServerModule.vue';
-import EHRDataBrowser from 'EHRDataBrowser.vue';
-import { useToolStore } from '../store/tools';
-import { Tools } from '../store/tools/types';
+import EHRDataBrowser from './EHRDataBrowser.vue';
+import { useToolStore } from '@/src/store/tools';
+import { Tools } from '@/src/store/tools/types';
 
 interface Module {
   name: string;
