@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
 import * as path from 'node:path';
 import { createRequire } from 'node:module';
+import { resolve as resolvePath } from 'path';
 import { Plugin, defineConfig, normalizePath } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
@@ -10,7 +11,11 @@ import { visualizer } from 'rollup-plugin-visualizer';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 import replace from '@rollup/plugin-replace';
 
-import pkgLock from './package-lock.json';
+import pkgLock from '../core/VolView/package-lock.json';
+
+function resolve(...args) {
+  return normalizePath(resolvePath(...args));
+}
 
 if (pkgLock.lockfileVersion !== 2) {
   throw new Error('package-lock.json is not version 2!');
@@ -28,13 +33,11 @@ function resolveNodeModulePath(moduleName: string) {
   return modulePath;
 }
 
-function resolvePath(...args) {
-  return normalizePath(path.resolve(...args));
-}
-
-const rootDir = resolvePath(__dirname);
-const distDir = resolvePath(rootDir, 'dist');
-const itkConfig = resolvePath(rootDir, 'src', 'io', 'itk', 'itkConfig.js');
+const rootDir = resolve(__dirname, '../core/VolView');
+const lungairDir = resolve(__dirname, '.');
+const distDir = resolve(rootDir, 'dist');
+const nodeModulesDir = resolve(__dirname, 'node_modules');
+const itkConfig = resolve(rootDir, 'src', 'io', 'itk', 'itkConfig.js');
 
 const { ANALYZE_BUNDLE, SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_PROJECT } =
   process.env;
@@ -54,6 +57,11 @@ export default defineConfig({
   build: {
     outDir: distDir,
     rollupOptions: {
+      input: {
+        main: 'lungair/index.html',
+        ehrLaunch: 'lungair/fhir-login/launch.html',
+        ehrRedirect: 'lungair/fhir-login/index.html',
+      },
       output: {
         manualChunks(id) {
           if (id.includes('vuetify')) {
@@ -86,7 +94,7 @@ export default defineConfig({
       },
       {
         find: '@src',
-        replacement: resolvePath(rootDir, 'src'),
+        replacement: resolve(rootDir, 'src'),
       },
       // Patch itk-wasm library code with image-io .wasm file paths
       // itkConfig alias only applies to itk-wasm library code after "npm run build"
@@ -142,21 +150,21 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: resolvePath(
+          src: resolve(
             resolveNodeModulePath('itk-wasm'),
             'dist/web-workers/bundles/pipeline.worker.js'
           ),
           dest: 'itk',
         },
         {
-          src: resolvePath(
+          src: resolve(
             resolveNodeModulePath('itk-image-io'),
             '*{.wasm,.js}'
           ),
           dest: 'itk/image-io',
         },
         {
-          src: resolvePath(
+          src: resolve(
             resolveNodeModulePath('@itk-wasm/dicom'),
             'dist/pipelines/*{.wasm,.js}'
           ),
@@ -169,6 +177,11 @@ export default defineConfig({
         {
           src: 'src/io/resample/emscripten-build/**/resample*',
           dest: 'itk/pipelines',
+        },
+        {
+          src: resolve(
+            resolveNodeModulePath('fhirclient'), 'build/fhir-client.js'),
+          dest: 'lungair/fhir-login/lib',
         },
       ],
     }),
