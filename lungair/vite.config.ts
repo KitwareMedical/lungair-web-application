@@ -171,11 +171,17 @@ export default defineConfig({
           dest: 'itk/pipelines',
         },
         {
-          src: 'src/io/itk-dicom/emscripten-build/**/dicom*',
+          src: resolve(
+            'core/VolView/src/io/itk-dicom',
+            'emscripten-build/**/dicom*'
+          ),
           dest: 'itk/pipelines',
         },
         {
-          src: 'src/io/resample/emscripten-build/**/resample*',
+          src: resolve(
+            'core/VolView/src/io/resample',
+            'emscripten-build/**/resample*'
+          ),
           dest: 'itk/pipelines',
         },
         {
