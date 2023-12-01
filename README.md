@@ -12,7 +12,7 @@ locally hosted DICOMWeb server, electronic health records (EHR) server, and VolV
 backend Python server for a connected deep learning pipeline.
 
 ### Prerequisites
-- _Node-js_ version >= `18.17.0` (might work with lower versions, but not tested)
+- _Node-js_ version `18.17.1`
 - _Python_ >= `3.9.12` (might work with lower versions, but not tested)
 - Download and install [Orthanc Server](https://www.orthanc-server.com/download.php)
   with DICOMWeb plugin for locally hosting DICOM images.
@@ -25,11 +25,12 @@ backend Python server for a connected deep learning pipeline.
 Clone the repository to your local drive:
 
 ```bash
-git clone https://www.github.com/KitwareMedical/lungair-web-application --branch=lungair-main
+git clone https://www.github.com/KitwareMedical/lungair-web-application
 cd lungair-web-application
+git submodule update --init
 ```
 
-Build and run VolView on http://localhost:4173/
+Build and run VolView on http://localhost:4173/lungair
 
 ```bash
 npm install
@@ -54,14 +55,12 @@ Following the [quick-start guide](../documentation/content/doc/server-dev.md#sta
 install [Poetry](https://python-poetry.org/), create a new Python environment for
 running the VolView server, and install the server dependencies:
 ```bash
-cd lungair-web-application/server/
+cd lungair-web-application/core/VolView/server/
+pip install poetry
 poetry install
+cd ../../../lungair/python/
+python -m volview_server -P 4014 lungair_methods.py
 ```
-Then, from the same directory, run the server as follows:
-```bash
-poetry run python -m volview_server -P 4014 ../lungair/python/lungair_methods.py
-```
-
 
 ### Add images to the DICOMWeb server
 
