@@ -58,7 +58,7 @@ export default defineConfig({
     outDir: distDir,
     rollupOptions: {
       input: {
-        main: 'lungair/index.html',
+        main: 'index.html',
         ehrLaunch: 'lungair/fhir-login/launch.html',
         ehrRedirect: 'lungair/fhir-login/index.html',
       },
