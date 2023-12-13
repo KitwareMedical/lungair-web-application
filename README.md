@@ -30,7 +30,7 @@ cd lungair-web-application
 git submodule update --init
 ```
 
-Build and run VolView on http://localhost:4173/lungair
+Build and run VolView on http://localhost:4173/
 
 ```bash
 npm install
