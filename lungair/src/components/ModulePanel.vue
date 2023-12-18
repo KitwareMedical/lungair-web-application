@@ -51,8 +51,13 @@ interface Module {
 
 const Modules: Module[] = [
   {
-    name: 'Data',
-    icon: 'database',
+    name: 'Patients',
+    icon: 'account-multiple',
+    component: EHRDataBrowser,
+  },
+  {
+    name: 'Images',
+    icon: 'lungs',
     component: DataBrowser,
   },
   {
@@ -61,14 +66,9 @@ const Modules: Module[] = [
     component: AnnotationsModule,
   },
   {
-    name: 'Remote',
-    icon: 'server-network',
+    name: 'Analysis',
+    icon: 'chart-line',
     component: ServerModule,
-  },
-  {
-    name: 'LungAir EHR',
-    icon: 'database',
-    component: EHRDataBrowser,
   },
 ];
 
