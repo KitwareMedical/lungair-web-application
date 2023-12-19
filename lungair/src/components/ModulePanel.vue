@@ -36,7 +36,7 @@
 <script lang="ts">
 import { Component, defineComponent, ref, watch } from 'vue';
 
-import PatientList from './dicom-web/PatientList.vue';
+import PatientList from '@/src/components/dicom-web/PatientList.vue';
 import AnnotationsModule from '@/src/components/AnnotationsModule.vue';
 import ServerModule from './LungairServerModule.vue';
 import EHRDataBrowser from './EHRDataBrowser.vue';

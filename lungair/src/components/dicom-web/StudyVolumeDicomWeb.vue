@@ -1,14 +1,14 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, ref, toRefs, watch } from 'vue';
 import type { PropType } from 'vue';
-import { useDicomMetaStore } from '../../store/dicom-web/dicom-meta-store';
+import { useDicomMetaStore } from '@/src/store/dicom-web/dicom-meta-store';
 import {
   useDicomWebStore,
   isDownloadable,
   VolumeProgress,
 } from '../../store/dicom-web/dicom-web-store';
-import { formatBytes } from '../../utils';
-import PersistentOverlay from '../PersistentOverlay.vue';
+import { formatBytes } from '@/src/utils';
+import PersistentOverlay from '@/src/components/PersistentOverlay.vue';
 
 const percentDone = (progress: VolumeProgress): number => {
   if (!progress || progress.total === 0) return 0;
@@ -34,8 +34,14 @@ export default defineComponent({
     // If deep linking for specific series, don't try to show other series initially, so filter.
     const volumeKeysWithInstanceInfo = computed(() => {
       const { volumeInstances, instanceInfo } = dicomStore;
-      return volumeKeys.value.filter(
-        (volumeKey) => instanceInfo[volumeInstances[volumeKey][0]]
+      return volumeKeys.value?.filter(
+        (volumeKey) => {
+          const vi = volumeInstances[volumeKey]?.at(0);
+          if (vi) {
+            return instanceInfo[volumeInstances[volumeKey][0]];
+          }
+          return false;
+        }
       );
     });
 

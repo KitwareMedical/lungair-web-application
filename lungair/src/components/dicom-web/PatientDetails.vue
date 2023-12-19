@@ -1,22 +1,17 @@
 <script lang="ts">
 import { computed, defineComponent, ref, toRefs, watch } from 'vue';
-import { useDicomMetaStore } from '../../store/dicom-web/dicom-meta-store';
+import { useDicomMetaStore } from '@/src/store/dicom-web/dicom-meta-store';
 import { useDicomWebStore } from '../../store/dicom-web/dicom-web-store';
 import StudyVolumeDicomWeb from './StudyVolumeDicomWeb.vue';
+import { useLocalFHIRStore } from '../../store/local-fhir-store';
 
 export default defineComponent({
   name: 'PatientDetails',
-  props: {
-    patientKey: {
-      type: String,
-      required: true,
-    },
-  },
   components: {
     StudyVolumeDicomWeb,
   },
   setup(props) {
-    const { patientKey } = toRefs(props);
+    const patientKey = useLocalFHIRStore().getCurrentPatient();
     const dicomStore = useDicomMetaStore();
     const dicomWebStore = useDicomWebStore();
 
@@ -27,7 +22,7 @@ export default defineComponent({
 
     const studies = computed(() => {
       const { patientStudies, studyInfo, studyVolumes } = dicomStore;
-      return patientStudies[patientKey.value].map((studyKey) => {
+      return patientStudies[patientKey.value]?.map((studyKey) => {
         const info = studyInfo[studyKey];
         return {
           ...info,
@@ -39,7 +34,7 @@ export default defineComponent({
       });
     });
 
-    const studyKeys = computed(() => studies.value.map(({ key }) => key));
+    const studyKeys = computed(() => studies.value?.map(({ key }) => key));
     const panels = ref<string[]>([]);
 
     watch(
