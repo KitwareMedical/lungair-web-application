@@ -10,6 +10,7 @@ const localFHIRStore = useLocalFHIRStore();
 const { hostURL: localServerUrl, identifierSystem } = storeToRefs(localFHIRStore);
 const errorAlert = ref("");
 const doLoginLoading = ref(false);
+const activePatientId = ref("");
 type PatientIdentifier = { system: string, value: string };
 
 async function login() {
@@ -56,6 +57,7 @@ const doLogin = () => {
 
 const setPatient = (id: string) => {
   localFHIRStore.setCurrentPatient(id);
+  activePatientId.value = id;
 }
 
 </script>
@@ -75,21 +77,6 @@ const setPatient = (id: string) => {
           Connect
         </v-btn>
       </v-row>
-      <div class="overflow-y-auto overflow-x-hidden">
-        <v-hover>
-            <v-card
-              v-for="patient in patients"
-              :key="patient.id"
-              variant="outlined"
-              min-height="60px"
-              min-width="1px"
-              :subtitle="`ID: ${patient.id}`"
-              :title="`${patient.name}`"
-              @click="setPatient(patient.id)"
-            >
-            </v-card>
-        </v-hover>
-      </div>
     </v-container>
     <v-alert
       v-if="errorAlert.length > 0"
@@ -99,6 +86,19 @@ const setPatient = (id: string) => {
     >
       {{ errorAlert }}
     </v-alert>
+    <v-card class="mx-auto overflow-y-auto" max-height="500px">
+      <v-list>
+        <v-list-item
+          v-for="patient in patients"
+          :key="patient.id"
+          :active="localFHIRStore.getCurrentPatient().value == patient.id"
+          active-color="green"
+          @click="setPatient(patient.id);"
+          >
+          {{ `${patient.name} (ID: ${patient.id})` }}
+        </v-list-item>
+      </v-list>
+    </v-card>
   </div>
 </template>
 

@@ -36,7 +36,7 @@
 <script lang="ts">
 import { Component, defineComponent, ref, watch } from 'vue';
 
-import DataBrowser from '@/src/components/DataBrowser.vue';
+import PatientList from '@/src/components/dicom-web/PatientList.vue';
 import AnnotationsModule from '@/src/components/AnnotationsModule.vue';
 import ServerModule from './LungairServerModule.vue';
 import EHRDataBrowser from './EHRDataBrowser.vue';
@@ -51,9 +51,14 @@ interface Module {
 
 const Modules: Module[] = [
   {
-    name: 'Data',
-    icon: 'database',
-    component: DataBrowser,
+    name: 'Patients',
+    icon: 'account-multiple',
+    component: EHRDataBrowser,
+  },
+  {
+    name: 'Images',
+    icon: 'lungs',
+    component: PatientList,
   },
   {
     name: 'Annotations',
@@ -61,14 +66,9 @@ const Modules: Module[] = [
     component: AnnotationsModule,
   },
   {
-    name: 'Remote',
-    icon: 'server-network',
+    name: 'Analysis',
+    icon: 'chart-line',
     component: ServerModule,
-  },
-  {
-    name: 'LungAir EHR',
-    icon: 'database',
-    component: EHRDataBrowser,
   },
 ];
 
