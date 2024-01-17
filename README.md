@@ -108,6 +108,13 @@ To set up the local FHIR server:
    cd [fhir-sandbox repository directory]
    python populate_fhir_server.py --json_file [lungair-web-application directory]/lungair/fhir-sandbox-config/lungair_data_source.json --fhir_server http://localhost:3000/hapi-fhir-jpaserver/fhir/
    ```
+4. If you used custom data from a file/table, you must modify the [.env file](https://github.com/KitwareMedical/lungair-web-application/blob/main/.env) and set the
+   environment variable
+   ```
+   VITE_PATIENT_IDENTIFIER="ID column from original data excel spreadsheet"
+   ```
+   The variable `VITE_PATIENT_IDENTIFIER` defines EHR's HL7 standard's [Identifier System](https://hl7.org/fhir/R4/datatypes-definitions.html#Identifier.system)
+   which essentially is a string or URL describing the namespace of the identifier value (e.g. New York State Driver's License Number).
 
 ## Acknowledgments
 
