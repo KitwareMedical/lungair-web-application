@@ -15,6 +15,8 @@ from volview_server.transformers import (
     convert_vtkjs_to_itk_image,
 )
 
+from lungair_seg_inference import run_lungair_seg_inference
+
 ## Link to app ##
 
 
@@ -99,3 +101,43 @@ async def median_filter(img_id, radius):
         await store.updateData(blurred_id, output)
 
     await show_image(blurred_id)
+
+def do_lung_segmentation(serialized_img):
+    itk_img = convert_vtkjs_to_itk_image(serialized_img)
+    seg = run_lungair_seg_inference(itk_img, './segmentLungsModel-v1.0.ckpt')
+    return convert_itk_to_vtkjs_image(seg)
+
+async def run_lung_segmentation_process(img):
+    serialized_img = convert_itk_to_vtkjs_image(img)
+    loop = asyncio.get_event_loop()
+    serialized_output = await loop.run_in_executor(
+        process_pool, do_lung_segmentation, serialized_img
+    )
+    return convert_vtkjs_to_itk_image(serialized_output)
+
+@volview.expose("segmentLungs")
+async def segment_lungs(img_id):
+    print(f"Started segmentLungs on {img_id} ...")
+    store = get_current_client_store("images")
+    state = get_current_session(default_factory=ClientState)
+
+    # Behavior: when a filter request occurs on a
+    # processed image, we instead assume we are re-running
+    # the operation on the original image.
+    base_image_id = get_base_image(state, img_id)
+    img = await store.dataIndex[base_image_id]
+
+    # we need to run the filter in a subprocess,
+    # since itk blocks the GIL.
+    segout = await run_lung_segmentation_process(img)
+    print(f"Completed segmentLungs on {img_id}.")
+
+    seg_id = state.image_id_map.get(base_image_id)
+    if not seg_id:
+        seg_id = await store.addVTKImageData("seg_image", segout)
+        # Associate the segmented image ID with the base image ID.
+        associate_images(state, base_image_id, seg_id)
+    else:
+        await store.updateData(seg_id, segout)
+
+    await show_image(seg_id)

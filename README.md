@@ -50,17 +50,7 @@ server already running on your machine.
 
 ### Run the python backend server
 
-VolView's python server can be used to run backend jobs such as deep learning inference pipelines.
-Following the [quick-start guide](../documentation/content/doc/server-dev.md#starting-the-server),
-install [Poetry](https://python-poetry.org/), create a new Python environment for
-running the VolView server, and install the server dependencies:
-```bash
-cd lungair-web-application/core/VolView/server/
-pip install poetry
-poetry install
-cd ../../../lungair/python/
-python -m volview_server -P 4014 lungair_methods.py
-```
+Follow instructions provided in the [lungair/server/README](./lungair/server/README.md) for details on installing and running the server.
 
 ### Add images to the DICOMWeb server
 

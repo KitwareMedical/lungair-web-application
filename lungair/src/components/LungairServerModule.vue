@@ -28,6 +28,22 @@ const doMedianFilter = async () => {
 };
 
 const hasCurrentImage = computed(() => !!currentImageID.value);
+
+// --- lung segmentation --- //
+const lungSegmentationLoading = ref(false);
+const doLungSegmentation = async () => {
+  const id = currentImageID.value;
+  if (!id) return;
+
+  lungSegmentationLoading.value = true;
+  try {
+    await client.call('segmentLungs', [id]);
+  } finally {
+    lungSegmentationLoading.value = false;
+  }
+};
+
+
 </script>
 
 
@@ -56,6 +72,20 @@ const hasCurrentImage = computed(() => !!currentImageID.value);
             :disabled="!ready || !hasCurrentImage"
           >
             Run Median Filter
+          </v-btn>
+          <span v-if="!hasCurrentImage" class="ml-4 body-2">
+            No image loaded
+          </span>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-btn
+            @click="doLungSegmentation"
+            :loading="lungSegmentationLoading"
+            :disabled="!ready || !hasCurrentImage"
+          >
+            Run Lung Segmentation
           </v-btn>
           <span v-if="!hasCurrentImage" class="ml-4 body-2">
             No image loaded
