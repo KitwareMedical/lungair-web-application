@@ -7,7 +7,7 @@ import CloseableDialog from '@/src/components/CloseableDialog.vue';
 import SaveSession from '@/src/components/SaveSession.vue';
 import ControlButton from '@/src/components/ControlButton.vue';
 import MessageNotifications from '@/src/components/MessageNotifications.vue';
-import Settings from '@/src/components/Settings.vue';
+import Settings from './Settings.vue';
 import ControlsStripTools from '@/src/components/ControlsStripTools.vue';
 import MessageCenter from '@/src/components/MessageCenter.vue';
 import { MessageType, useMessageStore } from '@/src/store/messages';

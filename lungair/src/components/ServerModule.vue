@@ -2,8 +2,13 @@
 import { computed, ref } from 'vue';
 import { useCurrentImage } from '@/src/composables/useCurrentImage';
 import { useServerStore, ConnectionState } from '@/src/store/server';
+import { getDataID, makeDICOMSelection, makeImageSelection } from '@/src/store/datasets';
+import { useImageStore } from '@/src/store/datasets-images';
+import { useLayersStore } from '@/src/store/datasets-layers';
 
 const serverStore = useServerStore();
+const imageStore = useImageStore();
+const layersStore = useLayersStore();
 const { client } = serverStore;
 const ready = computed(
   () => serverStore.connState === ConnectionState.Connected
@@ -32,12 +37,22 @@ const hasCurrentImage = computed(() => !!currentImageID.value);
 // --- lung segmentation --- //
 const lungSegmentationLoading = ref(false);
 const doLungSegmentation = async () => {
-  const id = currentImageID.value;
-  if (!id) return;
+  const currId = currentImageID.value;
+  if (!currId) return;
 
   lungSegmentationLoading.value = true;
   try {
-    await client.call('segmentLungs', [id]);
+    await client.call('segmentLungs', [currId]);
+
+    const seg_id = Object.keys(imageStore.metadata).find(id => imageStore.metadata[id].name === `${currId}_seg`);
+    const vkey = getDataID(currId);
+    // layersStore.addLayer({type: 'dicom', volumeKey: vkey}, {type: 'image', dataID: seg_id })
+    const segIdString = seg_id?.toString();
+    if (segIdString) {
+      layersStore.addLayer(vkey === currId? makeImageSelection(currId) : makeDICOMSelection(vkey), makeImageSelection(segIdString));
+    }
+
+    // useImageStore().metadata.len
   } finally {
     lungSegmentationLoading.value = false;
   }

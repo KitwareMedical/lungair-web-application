@@ -115,10 +115,16 @@ async def run_lung_segmentation_process(img):
     )
     return convert_vtkjs_to_itk_image(serialized_output)
 
+async def getDataID(imageID: str):
+    dicomStore = get_current_client_store('dicom')
+    volumeKey = dicomStore.imageIDToVolumeKey[imageID]
+    return volumeKey if volumeKey else imageID
+
 @volview.expose("segmentLungs")
 async def segment_lungs(img_id):
     print(f"Started segmentLungs on {img_id} ...")
     store = get_current_client_store("images")
+    # layerStore = get_current_client_store("layer")
     state = get_current_session(default_factory=ClientState)
 
     # Behavior: when a filter request occurs on a
@@ -133,11 +139,22 @@ async def segment_lungs(img_id):
     print(f"Completed segmentLungs on {img_id}.")
 
     seg_id = state.image_id_map.get(base_image_id)
-    if not seg_id:
-        seg_id = await store.addVTKImageData("seg_image", segout)
+    seg_exists_on_client_side = None
+    if seg_id:
+        seg_exists_on_client_side = await store.metadata[seg_id]
+        # seg_exists_on_client_side = await store.dataIndex[seg_id]
+
+    print('seg_exists_on_client_side: ', seg_exists_on_client_side)
+
+    if seg_id and seg_exists_on_client_side:
+        print(f"Updating existing segmentation image ID: {seg_id}.")
+        await store.updateData(seg_id, segout)
+    else:
+        seg_id = await store.addVTKImageData(f"{img_id}_seg", segout)
+        print(f"New segmentation image ID: {seg_id}.")
         # Associate the segmented image ID with the base image ID.
         associate_images(state, base_image_id, seg_id)
-    else:
-        await store.updateData(seg_id, segout)
-
-    await show_image(seg_id)
+        # volumeKey = getDataID()
+        # parent = { 'type': 'dicom', 'dataID': await getDataID(f'{img_id}') }
+        # source = { 'type': 'image', 'dataID': seg_id }
+        # await layerStore.addLayer(parent, source)

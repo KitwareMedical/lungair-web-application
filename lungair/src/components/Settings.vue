@@ -32,6 +32,9 @@
       <dicom-web-settings />
 
       <v-divider class="mt-2 mb-6"></v-divider>
+      <local-FHIR-settings />
+
+      <v-divider class="mt-2 mb-6"></v-divider>
       <server-settings />
     </v-card-text>
   </v-card>
@@ -43,13 +46,14 @@ import { useTheme } from 'vuetify';
 import { useLocalStorage } from '@vueuse/core';
 
 import { useKeyboardShortcutsStore } from '@/src/store/keyboard-shortcuts';
-import DicomWebSettings from './dicom-web/DicomWebSettings.vue';
-import ServerSettings from './ServerSettings.vue';
-import { DarkTheme, LightTheme, ThemeStorageKey } from '../constants';
+import DicomWebSettings from '@/src/components/dicom-web/DicomWebSettings.vue';
+import LocalFHIRSettings from './LocalFHIRSettings.vue';
+import ServerSettings from '@/src/components/ServerSettings.vue';
+import { DarkTheme, LightTheme, ThemeStorageKey } from '@/src/constants';
 import {
   useErrorReporting,
   errorReportingConfigured,
-} from '../utils/errorReporting';
+} from '@/src/utils/errorReporting';
 
 export default defineComponent({
   setup() {
@@ -82,6 +86,7 @@ export default defineComponent({
   },
   components: {
     DicomWebSettings,
+    LocalFHIRSettings,
     ServerSettings,
   },
 });
