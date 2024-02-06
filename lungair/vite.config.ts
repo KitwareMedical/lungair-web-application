@@ -12,6 +12,7 @@ import { sentryVitePlugin } from '@sentry/vite-plugin';
 import replace from '@rollup/plugin-replace';
 
 import pkgLock from '../core/VolView/package-lock.json';
+import { config } from '../core/VolView/wdio.shared.conf';
 
 function resolve(...args) {
   return normalizePath(resolvePath(...args));
@@ -21,8 +22,18 @@ if (pkgLock.lockfileVersion !== 2) {
   throw new Error('package-lock.json is not version 2!');
 }
 
+const rootDir = resolve(__dirname, '../core/VolView');
+const lungairDir = resolve(__dirname, '.');
+const distDir = resolve(rootDir, 'dist');
+const nodeModulesDir = resolve(__dirname, 'node_modules');
+const itkConfig = resolve(rootDir, 'src', 'io', 'itk', 'itkConfig.js');
+
 function resolveNodeModulePath(moduleName: string) {
+  console.log('import.meta.url = ', import.meta.url)
   const require = createRequire(import.meta.url);
+  // console.log('require = ', require);
+  const res = require.resolve(moduleName, {paths: [nodeModulesDir]});
+  console.log('res = ', res);
   let modulePath = normalizePath(require.resolve(moduleName));
   while (!modulePath.endsWith(moduleName)) {
     const newPath = path.posix.dirname(modulePath);
@@ -33,11 +44,10 @@ function resolveNodeModulePath(moduleName: string) {
   return modulePath;
 }
 
-const rootDir = resolve(__dirname, '../core/VolView');
-const lungairDir = resolve(__dirname, '.');
-const distDir = resolve(rootDir, 'dist');
-const nodeModulesDir = resolve(__dirname, 'node_modules');
-const itkConfig = resolve(rootDir, 'src', 'io', 'itk', 'itkConfig.js');
+
+console.log('calling resolveNodeModulePath(itk-wasm)')
+console.log(resolveNodeModulePath('itk-wasm'))
+console.log('called resolveNodeModulePath(itk-wasm)')
 
 const { ANALYZE_BUNDLE, SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_PROJECT } =
   process.env;
@@ -152,21 +162,21 @@ export default defineConfig({
         {
           src: resolve(
             resolveNodeModulePath('itk-wasm'),
-            'dist/web-workers/bundles/pipeline.worker.js'
+            'dist/core/web-workers/bundles/itk-wasm-pipeline.min.worker.js'
           ),
           dest: 'itk',
         },
         {
           src: resolve(
-            resolveNodeModulePath('itk-image-io'),
-            '*{.wasm,.js}'
+            resolveNodeModulePath('@itk-wasm/image-io'),
+            'dist/pipelines/*{.wasm,.js,.zst}'
           ),
           dest: 'itk/image-io',
         },
         {
           src: resolve(
             resolveNodeModulePath('@itk-wasm/dicom'),
-            'dist/pipelines/*{.wasm,.js}'
+            'dist/pipelines/*{.wasm,.js,.zst}'
           ),
           dest: 'itk/pipelines',
         },
@@ -204,6 +214,13 @@ export default defineConfig({
   ],
   server: {
     port: 8080,
+    // so `npm run test:e2e:dev` can access the webdriver static server temp directory
+    proxy: {
+      '/tmp': config.baseUrl!,
+    },
+  },
+  optimizeDeps: {
+    exclude: ['itk-wasm'],
   },
   test: {
     environment: 'jsdom',

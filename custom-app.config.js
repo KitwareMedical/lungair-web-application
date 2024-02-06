@@ -3,6 +3,6 @@ export default {
   coreDir: "core/VolView",
   coreRepo: {
     url: "https://github.com/Kitware/VolView.git",
-    ref: "b59bbae9523f6ac09dff092bf1f5c4db5015b7f8",
+    ref: "6f3685dbf78b3eb30106c2168edd7feb0f8be5fe",
   },
 };
