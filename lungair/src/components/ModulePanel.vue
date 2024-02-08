@@ -38,7 +38,7 @@ import { Component, defineComponent, ref, watch } from 'vue';
 
 import PatientList from '@/src/components/dicom-web/PatientList.vue';
 import AnnotationsModule from '@/src/components/AnnotationsModule.vue';
-import ServerModule from './LungairServerModule.vue';
+import ServerModule from './ServerModule.vue';
 import EHRDataBrowser from './EHRDataBrowser.vue';
 import { useToolStore } from '@/src/store/tools';
 import { Tools } from '@/src/store/tools/types';
@@ -76,6 +76,7 @@ const autoSwitchToAnnotationsTools = [
   Tools.Rectangle,
   Tools.Ruler,
   Tools.Polygon,
+  Tools.Paint,
 ];
 
 export default defineComponent({

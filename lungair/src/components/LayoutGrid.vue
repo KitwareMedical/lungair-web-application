@@ -5,7 +5,7 @@
     data-testid="layout-grid"
   >
     <div v-for="(item, i) in items" :key="i" class="d-flex flex-equal">
-      <layout-grid v-if="item.type === 'layout'" :layout="item" />
+      <layout-grid v-if="item.type === 'layout'" :layout="(item as Layout)" />
       <div v-else class="layout-item">
         <component
           :is="item.component"
@@ -22,6 +22,8 @@
 import { Component, computed, defineComponent, PropType, toRefs } from 'vue';
 import { storeToRefs } from 'pinia';
 import VtkTwoView from '@/src/components/VtkTwoView.vue';
+import VtkObliqueView from '@/src/components/VtkObliqueView.vue';
+import VtkObliqueThreeView from '@/src/components/VtkObliqueThreeView.vue';
 import VtkThreeView from '@/src/components/VtkThreeView.vue';
 import AnalyticsView from './AnalyticsView.vue';
 import ChartView from './ChartView.vue';
@@ -34,6 +36,8 @@ const TYPE_TO_COMPONENT: Record<ViewType, Component> = {
   '3D': VtkThreeView,
   Analytics: AnalyticsView,
   Chart: ChartView,
+  Oblique: VtkObliqueView,
+  Oblique3D: VtkObliqueThreeView,
 };
 
 export default defineComponent({

@@ -4,7 +4,7 @@ import {
   PiecewiseNode,
 } from '@kitware/vtk.js/Proxy/Core/PiecewiseFunctionProxy';
 
-export type ViewType = '2D' | '3D' | 'Chart' | 'Analytics';
+export type ViewType = '2D' | '3D' | 'Oblique' | 'Oblique3D' | 'Chart' | 'Analytics';
 
 export interface ViewSpec {
   viewType: ViewType;
@@ -27,6 +27,7 @@ export interface OpacityPoints {
   // base preset that has the opacity points
   preset: string;
   shift: number;
+  shiftAlpha: number;
   mappingRange: [number, number];
 }
 
