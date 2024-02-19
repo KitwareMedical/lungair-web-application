@@ -2,7 +2,14 @@
 import { computed, ref } from 'vue';
 import { useCurrentImage } from '@/src/composables/useCurrentImage';
 import { useServerStore, ConnectionState } from '@/src/store/server';
+import { getDataID, makeImageSelection } from '@/src/store/datasets';
+import { useImageStore } from '@/src/store/datasets-images';
+import { useDatasetStore } from '@/src/store/datasets';
+import { useSegmentGroupStore } from '@/src/store/segmentGroups';
 
+const dataStore = useDatasetStore();
+const imageStore = useImageStore();
+const segmentGroupStore = useSegmentGroupStore();
 const serverStore = useServerStore();
 const { client } = serverStore;
 const ready = computed(
@@ -31,13 +38,24 @@ const hasCurrentImage = computed(() => !!currentImageID.value);
 
 // --- lung segmentation --- //
 const lungSegmentationLoading = ref(false);
+
 const doLungSegmentation = async () => {
-  const id = currentImageID.value;
-  if (!id) return;
+  const currId = currentImageID.value;
+  if (!currId) return;
 
   lungSegmentationLoading.value = true;
   try {
-    await client.call('segmentLungs', [id]);
+    await client.call('segmentLungs', [currId]);
+
+    const seg_id = Object.keys(imageStore.metadata).find(id => imageStore.metadata[id].name === `${currId}_seg`);
+    const segIdString = seg_id?.toString();
+    const primarySelection = dataStore.primarySelection;
+    if (primarySelection && segIdString) {
+      segmentGroupStore.convertImageToLabelmap(
+        makeImageSelection(segIdString),
+        primarySelection
+      );
+    }
   } finally {
     lungSegmentationLoading.value = false;
   }

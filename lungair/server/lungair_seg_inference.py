@@ -3,7 +3,6 @@ import numpy as np
 import torch
 import lightning as L
 from monai.networks.nets import UNETR
-import SimpleITK as sitk
 import itk
 from monai.transforms import ( Compose, Resized, 
                               ToTensord, NormalizeIntensityd, EnsureChannelFirstd, Invertd)
@@ -18,7 +17,7 @@ class NetInference(L.LightningModule):
         x = self.model(x)
         return x
     
-def run_lungair_seg_inference(itk_img: sitk.Image, model_checkpoint: str) -> sitk.Image: 
+def run_lungair_seg_inference(itk_img: itk.image, model_checkpoint: str) -> itk.image:
     input_img = itk.array_from_image(itk_img).astype(int).squeeze()
     input_size = [512,512]
     num_classes = 2
@@ -59,10 +58,10 @@ def run_lungair_seg_inference(itk_img: sitk.Image, model_checkpoint: str) -> sit
     # Output segmentation
     seg = output_dict["infer"].cpu().numpy()
     seg = seg.astype(np.ushort)
-    # ImageType = type(itk_img)
     PixelType = itk.ctype("unsigned short")
     Dimension = 3
     ImageType = itk.Image[PixelType, Dimension]
     result = itk.image_from_array(seg, ttype=ImageType)
-    itk.imwrite(result, 'lungseg_prediction.png')
+    result.SetOrigin(itk_img.GetOrigin())
+    result.SetSpacing(itk_img.GetSpacing())
     return result

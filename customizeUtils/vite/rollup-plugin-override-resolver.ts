@@ -1,13 +1,13 @@
-import * as path from "node:path";
-import * as glob from "glob";
-import { PluginOption, normalizePath } from "vite";
+import * as path from 'node:path';
+import * as glob from 'glob';
+import { PluginOption, normalizePath } from 'vite';
 import {
   OverrideDirPath,
   OverrideDirPrefix,
   CoreDirPath,
   CoreDirPrefix,
   ProjectRoot,
-} from "../common";
+} from '../common';
 
 function generateOverrideLookup() {
   return new Set(
@@ -25,9 +25,9 @@ function generateOverrideLookup() {
 const overrideLookup = generateOverrideLookup();
 
 export const OverrideResolverPlugin: PluginOption = {
-  name: "override-resolver",
+  name: 'override-resolver',
   resolveId: {
-    order: "pre",
+    order: 'pre',
     async handler(source, importer, options) {
       const resolution = await this.resolve(source, importer, {
         skipSelf: true,
