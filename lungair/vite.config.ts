@@ -24,23 +24,17 @@ if (pkgLock.lockfileVersion !== 2) {
 
 const projectDir = resolve(__dirname, '..');
 const rootDir = resolve(__dirname, '../core/VolView');
-// const lungairDir = resolve(__dirname, '.');
 const distDir = resolve(rootDir, 'dist');
-// const nodeModulesDir = resolve(__dirname, 'node_modules');
 const itkConfig = resolve(rootDir, 'src', 'io', 'itk', 'itkConfig.js');
 
-console.log(process.platform)
 
 function resolveNodeModulePath(moduleName: string) {
-  console.log('import.meta.url = ', import.meta.url)
   const require = createRequire(import.meta.url);
   let modulePath = require.resolve(moduleName, {paths: [`${rootDir}/node_modules`]});
   modulePath = process.platform == 'win32' ? modulePath.replace(/\\/g, '/') : modulePath;
-  console.log('modulePath = ', modulePath);
   while (!modulePath.endsWith(moduleName)) {
     // const newPath = path.posix.dirname(modulePath);
     const newPath = path.win32.dirname(modulePath);
-    console.log('newPath = ', newPath);
     if (newPath === modulePath)
       throw new Error(`Could not resolve ${moduleName}`);
     modulePath = newPath;
@@ -48,10 +42,6 @@ function resolveNodeModulePath(moduleName: string) {
   return modulePath;
 }
 
-
-console.log('calling resolveNodeModulePath(itk-wasm)')
-console.log(resolveNodeModulePath('itk-wasm'))
-console.log('called resolveNodeModulePath(itk-wasm)')
 
 const { ANALYZE_BUNDLE, SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_PROJECT } =
   process.env;

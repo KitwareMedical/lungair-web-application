@@ -2,13 +2,15 @@
 import { computed, ref } from 'vue';
 import { useCurrentImage } from '@/src/composables/useCurrentImage';
 import { useServerStore, ConnectionState } from '@/src/store/server';
-import { getDataID, makeDICOMSelection, makeImageSelection } from '@/src/store/datasets';
+import { getDataID, makeImageSelection } from '@/src/store/datasets';
 import { useImageStore } from '@/src/store/datasets-images';
-import { useLayersStore } from '@/src/store/datasets-layers';
+import { useDatasetStore } from '@/src/store/datasets';
+import { useSegmentGroupStore } from '@/src/store/segmentGroups';
 
-const serverStore = useServerStore();
+const dataStore = useDatasetStore();
 const imageStore = useImageStore();
-const layersStore = useLayersStore();
+const segmentGroupStore = useSegmentGroupStore();
+const serverStore = useServerStore();
 const { client } = serverStore;
 const ready = computed(
   () => serverStore.connState === ConnectionState.Connected
@@ -36,6 +38,7 @@ const hasCurrentImage = computed(() => !!currentImageID.value);
 
 // --- lung segmentation --- //
 const lungSegmentationLoading = ref(false);
+
 const doLungSegmentation = async () => {
   const currId = currentImageID.value;
   if (!currId) return;
@@ -45,14 +48,14 @@ const doLungSegmentation = async () => {
     await client.call('segmentLungs', [currId]);
 
     const seg_id = Object.keys(imageStore.metadata).find(id => imageStore.metadata[id].name === `${currId}_seg`);
-    const vkey = getDataID(currId);
-    // layersStore.addLayer({type: 'dicom', volumeKey: vkey}, {type: 'image', dataID: seg_id })
     const segIdString = seg_id?.toString();
-    if (segIdString) {
-      layersStore.addLayer(vkey === currId? makeImageSelection(currId) : makeDICOMSelection(vkey), makeImageSelection(segIdString));
+    const primarySelection = dataStore.primarySelection;
+    if (primarySelection && segIdString) {
+      segmentGroupStore.convertImageToLabelmap(
+        makeImageSelection(segIdString),
+        primarySelection
+      );
     }
-
-    // useImageStore().metadata.len
   } finally {
     lungSegmentationLoading.value = false;
   }
