@@ -52,15 +52,6 @@ server already running on your machine.
 
 Follow instructions provided in the [lungair/server/README](./lungair/server/README.md) for details on installing and running the server.
 
-### Add images to the DICOMWeb server
-
-Open http://localhost:8042/ in a browser window and click _All Studies_ button at the bottom.
-If you do not already have any studies in your hosted DICOMWeb server, upload some example
-DICOM data by clicking the _Upload_ button in the top-right corner.
-
-Now open LungAIR in another browser window using http://localhost:4173/.
-The Data tab should list your DICOM data uploaded to _Orthanc_ server.
-
 ### Electronic health records (EHR)
 
 The LungAIR web application can interact with EHR in a few different ways.
@@ -69,7 +60,7 @@ The LungAIR web application can interact with EHR in a few different ways.
 
 This proof-of-concept demonstrates user authentication and data retrieval from a Cerner FHIR server.
 
-Go to the _LungAir EHR_ tab in the LungAIR web application. The login process is currently hard-coded for
+Go to the _Patients_ tab in the LungAIR web application. The login process is currently hard-coded for
 performing a Cerner Code app launch. Click the login and enter credentials in the
 pop-up window. See this [test data document](https://docs.google.com/document/d/10RnVyF1etl_17pyCyK96tyhUWRbrTyEcqpwzW-Z-Ybs/edit)
 for credentials to use on the public test server.
@@ -105,6 +96,17 @@ To set up the local FHIR server:
    ```
    The variable `VITE_PATIENT_IDENTIFIER` defines EHR's HL7 standard's [Identifier System](https://hl7.org/fhir/R4/datatypes-definitions.html#Identifier.system)
    which essentially is a string or URL describing the namespace of the identifier value (e.g. New York State Driver's License Number).
+
+### Add images to the DICOMWeb server
+
+LungAIR is meant to use images only alongside patient medical records, so any custom DICOM data that is uploaded needs to contain patient IDs that match the IDs in the EHR system.
+
+To upload images, open http://localhost:8042/ in a browser window and click _All Studies_ button at the bottom,
+then click the _Upload_ button in the top-right corner.
+
+Now open LungAIR in another browser window using http://localhost:4173/.
+Select a patient from the _Patients_ tab in LungAIR.
+The _Images_ tab will then list the DICOM data that was uploaded to _Orthanc_ server, but only those images that have a patient ID in their DICOM header that matches the EHR ID of the selected patient. The variable `VITE_PATIENT_IDENTIFIER` described above is the identifier system that is used to match EHR IDs with DICOM patient IDs.
 
 ## Acknowledgments
 
