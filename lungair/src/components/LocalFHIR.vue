@@ -15,26 +15,37 @@ type PatientIdentifier = { system: string, value: string };
 
 async function login() {
   try {
-    const client = await FHIR.client({
+    const client = FHIR.client({
         serverUrl: localServerUrl.value
     });
 
     // Resolves with a Bundle or rejects with an Error
     const response = await client.request(`Patient?identifier=${identifierSystem.value}%7C`);
 
-    for(let i = 0; i < response.entry?.length; ++i) {
+    for (let i = 0; i < response.entry?.length; ++i) {
       const patientResource = response.entry[i]?.resource;
       if (patientResource) {
-        const nameObj = patientResource.name[0];
-        const nameText = `${nameObj.given[0]} ${nameObj.family}`;
+        // Check if name exists and is an array with at least one item
+        const nameObj = Array.isArray(patientResource.name) && patientResource.name.length > 0 ? patientResource.name[0] : null;
 
-        const idValue: string | undefined =
-          (patientResource.identifier as PatientIdentifier[]).find(elem => elem.system === identifierSystem.value)?.value;
+        let nameText = "(No name found)";
+        if (nameObj) {
+          // Some FHIR Patient resources only have family or only given names, or these may be arrays
+          const given = Array.isArray(nameObj.given) && nameObj.given.length > 0 ? nameObj.given[0] : "";
+          const family = nameObj.family || "";
+          nameText = `${given} ${family}`.trim() || "(No name found)";
+        }
+
+        const idValue =
+          Array.isArray(patientResource.identifier)
+            ? patientResource.identifier.find(elem => elem.system === identifierSystem.value)?.value
+            : undefined;
 
         if (idValue) {
-          patients.value?.push({id: idValue, name: nameText});
+          patients.value?.push({ id: idValue, name: nameText });
         } else {
-          throw Error("No valid ID found, skipping patient entry.");
+          // Optional: Log which patient is missing an ID for debugging
+          console.warn("No valid ID found for patient:", patientResource);
         }
       }
     }
