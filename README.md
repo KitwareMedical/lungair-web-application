@@ -12,7 +12,7 @@ locally hosted DICOMWeb server, electronic health records (EHR) server, and VolV
 backend Python server for a connected deep learning pipeline.
 
 ### Prerequisites
-- _Node-js_ version `18.17.1`
+- _Node-js_ version `18.20.0` (changed because upstream volvue update)
 - _Python_ >= `3.9.12` (might work with lower versions, but not tested)
 - Download and install [Orthanc Server](https://www.orthanc-server.com/download.php)
   with DICOMWeb plugin for locally hosting DICOM images.
