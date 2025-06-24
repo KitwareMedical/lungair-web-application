@@ -1,0 +1,13 @@
+diff --git a/server/volview_server/__main__.py b/server/volview_server/__main__.py
+index 22c2f000..6df5eddb 100644
+--- a/server/volview_server/__main__.py
++++ b/server/volview_server/__main__.py
+@@ -79,7 +79,7 @@ def main(args):
+     run_server(
+         volview_api,
+         host=args.host,
+-        port=args.port,
++        port=int(args.port),
+         debug=args.verbose,
+         # socketio.AsyncServer kwargs
+         async_handlers=True,
