@@ -34,6 +34,7 @@ Build and run VolView on http://localhost:4173/
 
 ```bash
 npm install
+npm audit fix
 npm run build
 npm run preview
 ```
